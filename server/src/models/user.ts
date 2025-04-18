@@ -1,14 +1,24 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
+import { AuthenticatedUser } from '../types/AuthenticatedUser';
 
 export interface IUser extends Document {
     uuid: string;
     name: string;
     email: string;
+    username: string,
     password: string;
     createdAt: Date;
     deletedAt: Date | null;
 }
+
+export function toAuthenticatedUser(user: IUser): AuthenticatedUser {
+    return {
+        uuid: user.uuid,
+        email: user.email,
+        username: user.username ?? user.email
+    };
+};
 
 const UserSchema: Schema = new Schema({
     uuid: {
@@ -27,6 +37,10 @@ const UserSchema: Schema = new Schema({
             'Please add a valid email',
         ],
         index: true,
+    },
+    username: {
+        type: String,
+        default: null,
     },
     password: {
         type: String,

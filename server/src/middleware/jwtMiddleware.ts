@@ -15,8 +15,9 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const token = authHeader.split(' ')[1];
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET) as { uuid: string; email: string };
-        req.user = { uuid: decoded.uuid, email: decoded.email };
+        const { uuid, email, username } = jwt.verify(token, process.env.JWT_SECRET);
+        const user: AuthenticatedUser = { uuid, email, username };
+        req.user = user;
         next();
     } catch (err) {
         res.status(403).json({ message: 'Invalid token' });

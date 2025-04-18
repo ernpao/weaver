@@ -1,16 +1,17 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-export interface IProject extends Document {
+export interface ICharacter extends Document {
     uuid: string;
     name: string;
+    role: string;
     description?: string;
-    ownerId: mongoose.Types.ObjectId;
+    projectId: mongoose.Types.ObjectId;
     createdAt: Date;
     deletedAt: Date | null;
 }
 
-const ProjectSchema: Schema = new Schema({
+const CharacterSchema: Schema = new Schema({
     uuid: {
         type: String,
         required: true,
@@ -20,15 +21,19 @@ const ProjectSchema: Schema = new Schema({
     },
     name: {
         type: String,
-        required: [true, 'Project name is required'],
+        required: [true, 'Character name is required'],
+    },
+    role: {
+        type: String,
+        required: false,
     },
     description: {
         type: String,
         default: '',
     },
-    ownerId: {
+    projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Project',
         required: true,
         index: true,
     },
@@ -43,6 +48,6 @@ const ProjectSchema: Schema = new Schema({
     },
 });
 
-const ProjectModel = mongoose.model<IProject>('Project', ProjectSchema);
+const CharacterModel = mongoose.model<ICharacter>('Character', CharacterSchema);
 
-export default ProjectModel;
+export default CharacterModel;

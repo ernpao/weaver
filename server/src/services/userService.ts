@@ -33,15 +33,16 @@ export default class UserService {
         return await UserModel.findOne({ uuid, deletedAt: null });
     }
 
-    async updateUser(uuid: string, email: string | null, password: string | null) {
+    async updateUser(uuid: string, email: string | null, password: string | null, username: string | null) {
         const user = await this.getUser(uuid)
 
         if (user) {
 
             if (email?.trim()) user.email = email;
             if (password?.trim()) user.password = await this.createPasswordHash(password)
+            if (username?.trim()) user.username = username;
 
-            user.save();
+            await user.save();
         }
 
     }
