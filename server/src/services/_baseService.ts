@@ -1,8 +1,8 @@
 import { Model } from "mongoose";
-import { IBaseModel, IBaseProjectResource } from "../models/_baseModel";
+import { IBaseDocument, IBaseProjectResource } from "../models/_baseDocument";
 import ProjectService from "./projectService";
 
-export abstract class BaseService<T extends IBaseModel> {
+export abstract class BaseService<T extends IBaseDocument> {
 
     #model: Model<T>;
     ownerUuid: string;
@@ -18,6 +18,7 @@ export abstract class BaseService<T extends IBaseModel> {
         }
     }
 
+
     protected async _create(params: any): Promise<T> {
 
         const newDoc = new this.#model({ ...this.#queryParams, ...params });
@@ -25,6 +26,7 @@ export abstract class BaseService<T extends IBaseModel> {
 
         return savedDoc;
     }
+
 
     /**
      * Fetch a document with the given UUID.
@@ -34,6 +36,7 @@ export abstract class BaseService<T extends IBaseModel> {
     async get(uuid: string): Promise<T | null> {
         return await this.#model.findOne({ ...this.#queryParams, uuid, deletedAt: null })
     }
+
 
     /**
      * Fetch all of the owner's documents of type T.
@@ -59,6 +62,7 @@ export abstract class BaseService<T extends IBaseModel> {
         return await this.#model.findOne({ ...this.#queryParams, uuid, deletedAt: { $ne: null } })
     }
 
+
     /**
      * Check if a document with the given UUID exists (and is not deleted).
      *
@@ -68,6 +72,7 @@ export abstract class BaseService<T extends IBaseModel> {
         const doc = await this.get(uuid);
         return doc ? true : false;
     }
+
 
     /**
      * Fetch a document with the given UUID.
@@ -131,6 +136,7 @@ export abstract class BaseService<T extends IBaseModel> {
 
     }
 
+
     /**
      * Restore a deleted document with the given UUID.
      *
@@ -147,6 +153,7 @@ export abstract class BaseService<T extends IBaseModel> {
 
     }
 
+
     async addTag(uuid: string, tag: string) {
 
         const doc = await this.get(uuid);
@@ -160,6 +167,7 @@ export abstract class BaseService<T extends IBaseModel> {
         }
     }
 
+
     async removeTag(uuid: string, tag: string) {
 
         const doc = await this.get(uuid);
@@ -171,6 +179,7 @@ export abstract class BaseService<T extends IBaseModel> {
         }
     }
 
+
     async setTags(uuid: string, tags: string[]) {
         const doc = await this.get(uuid);
 
@@ -181,6 +190,7 @@ export abstract class BaseService<T extends IBaseModel> {
         }
 
     }
+
 
     async clearTags(uuid: string) {
         const doc = await this.get(uuid);

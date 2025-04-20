@@ -1,7 +1,7 @@
 import { Document, Schema } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-export interface IBaseModel extends Document {
+export interface IBaseDocument extends Document {
 
     uuid: string;
     ownerUuid: string;
@@ -57,7 +57,7 @@ export const BaseSchema = {
 }
 
 
-export interface IBaseProjectResource extends IBaseModel {
+export interface IBaseProjectResource extends IBaseDocument {
     projectUuid: string;
 }
 

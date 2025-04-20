@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { BaseProjectResourceSchema, IBaseProjectResource } from './_baseModel';
+import { BaseProjectResourceSchema, IBaseProjectResource } from './_baseDocument';
 
 export interface ICharacter extends IBaseProjectResource {
     role?: string;

@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { BaseProjectResourceSchema, IBaseProjectResource } from './_baseModel';
+import { BaseProjectResourceSchema, IBaseProjectResource } from './_baseDocument';
 
 export interface IPlace extends IBaseProjectResource {
     location?: string; // optional field

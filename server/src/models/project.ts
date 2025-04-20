@@ -1,8 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { IBaseModel, BaseSchema } from './_baseModel'
+import { IBaseDocument, BaseSchema } from './_baseDocument'
 
-export interface IProject extends IBaseModel {
+export interface IProject extends IBaseDocument {
 }
 
 const ProjectSchema: Schema = new Schema({
