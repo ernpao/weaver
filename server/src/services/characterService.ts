@@ -1,0 +1,20 @@
+import CharacterModel, { ICharacter } from '../models/character';
+import { BaseProjectResourceService } from './_baseService';
+
+export default class CharacterService extends BaseProjectResourceService<ICharacter> {
+
+    constructor(ownerUuid: string) {
+        super(ownerUuid, CharacterModel)
+    }
+
+    async update(
+        uuid: string,
+        name?: string,
+        description?: string,
+        role?: string,
+        tags?: string[]
+    ) {
+        await this._update(uuid, { name, description, role, tags })
+    }
+
+}

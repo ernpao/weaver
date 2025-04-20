@@ -50,13 +50,18 @@ export default class UserService {
     async deleteUser(uuid: string) {
         const user = await this.getUser(uuid)
         if (user) {
+            console.log(user)
             user.deletedAt = new Date();
-            user.save();
+            await user.save();
         }
     }
 
     async userWithEmailExists(email: string): Promise<boolean> {
         return (await this.getUserByEmail(email)) ? true : false;
+    }
+
+    async userExists(uuid: string): Promise<boolean> {
+        return (await this.getUser(uuid)) ? true : false;
     }
 
     async checkPassword(email: string, password: string): Promise<boolean> {

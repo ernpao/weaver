@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { AuthenticatedUser } from '../types/AuthenticatedUser'; // Adjust path as needed
+import { AuthenticatedUser } from '../types/authenticatedUser'; // Adjust path as needed
 
 const jwt = require('jsonwebtoken');
 
@@ -20,7 +20,10 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
         req.user = user;
         next();
     } catch (err) {
-        res.status(403).json({ message: 'Invalid token' });
+        res.status(403).json({
+            success: false,
+            error: 'Invalid token'
+        });
     }
 };
 

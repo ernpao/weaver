@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AuthenticatedUser } from '../types/AuthenticatedUser';
+import { AuthenticatedUser } from '../types/authenticatedUser';
 import UserService from '../services/userService'
 import { toAuthenticatedUser } from '../models/user';
 
@@ -32,7 +32,6 @@ function _createJwt(user: AuthenticatedUser): string {
     const token = jwt.sign(payload, secret, { expiresIn: expiresIn, });
 
     const bearerToken = `Bearer ${token}`;
-    console.log(bearerToken)
     return bearerToken;
 }
 
