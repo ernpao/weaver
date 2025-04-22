@@ -13,7 +13,6 @@ function _checkCredentials(req: Request, res: Response) {
 
     const { email, password } = req.body;
 
-    // Basic validation (can add more robust validation library like class-validator)
     if (!email || !password) {
         return res.json({
             "success": false,

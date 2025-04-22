@@ -32,7 +32,6 @@ app.use('/auth', require('./controllers/authController'))
 app.use('/api/v1/users/:uuid', authenticate, requirePathParamUuid, require('./controllers/usersController'))
 
 app.use('/api/v1/projects', authenticate, require('./controllers/projectsController'))
-
 app.use('/api/v1/characters', authenticate, requireBodyParamProjectUuid, require('./controllers/charactersController'))
 app.use('/api/v1/places', authenticate, requireBodyParamProjectUuid, require('./controllers/placesController'))
 app.use('/api/v1/events', authenticate, requireBodyParamProjectUuid, require('./controllers/eventsController'))
