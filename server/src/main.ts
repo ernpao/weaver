@@ -4,6 +4,7 @@ const port = parseInt(process.env.PORT == undefined ? '' : process.env.PORT)
 
 import express, { NextFunction } from 'express';
 const cors = require('cors')
+const cookieParser = require('cookie-parser');
 
 // Connect to Database
 const connectDB = require('./config/database'); // Import the DB connection function
@@ -15,7 +16,12 @@ const app = express();
 
 // Configure Server
 app.use(express.json({ limit: '10mb' }))
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+}));
+
 
 
 // Setup Middleware
