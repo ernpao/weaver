@@ -1,7 +1,7 @@
-import CharacterModel, { ICharacter } from '../models/character';
+import CharacterModel, { Character } from '../models/character';
 import { BaseProjectResourceService } from './_baseService';
 
-export default class CharacterService extends BaseProjectResourceService<ICharacter> {
+export default class CharacterService extends BaseProjectResourceService<Character> {
 
     constructor(ownerUuid: string) {
         super(ownerUuid, CharacterModel)

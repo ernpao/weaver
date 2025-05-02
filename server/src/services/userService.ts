@@ -1,4 +1,4 @@
-import UserModel, { IUser } from '../models/user'; // Import model and interface
+import UserModel, { User } from '../models/user'; // Import model and interface
 import bcrypt from 'bcryptjs'
 
 
@@ -18,18 +18,18 @@ export default class UserService {
             password: await this.createPasswordHash(password)
         });
 
-        const savedUser: IUser = await user.save();
+        const savedUser: User = await user.save();
 
         // Avoid sending password back, even if hashed
         const userResponse = savedUser.toObject();
         delete userResponse.password;
     }
 
-    async getUserByEmail(email: string): Promise<IUser | null> {
+    async getUserByEmail(email: string): Promise<User | null> {
         return await UserModel.findOne({ email, deletedAt: null });
     }
 
-    async getUser(uuid: string): Promise<IUser | null> {
+    async getUser(uuid: string): Promise<User | null> {
         return await UserModel.findOne({ uuid, deletedAt: null });
     }
 

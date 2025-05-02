@@ -16,7 +16,7 @@ const invalidCredentialsResponse = {
 }
 
 function _checkCredentials(req: Request): boolean {
-    console.log(req.body)
+    // console.log(req.body)
 
     const { email, password } = req.body;
     return (!email || !password) ? false : true;

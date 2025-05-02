@@ -6,11 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router';
 import SignIn from './pages/SignIn';
 import Layout from './layouts/Layout';
-import DemoPage1 from './pages/DemoPage1';
-import DemoPage2 from './pages/DemoPage2';
+import Characters from './pages/Characters';
+import Places from './pages/Places';
 import Dashboard from './pages/Dashboard';
 import { AuthProvider } from './hooks/useAuth';
-
+import Events from './pages/Events';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -29,12 +29,16 @@ const router = createBrowserRouter([
             Component: Dashboard,
           },
           {
-            path: '/demo-page-1',
-            Component: DemoPage1,
+            path: '/characters',
+            Component: Characters,
           },
           {
-            path: '/demo-page-2',
-            Component: DemoPage2,
+            path: '/places',
+            Component: Places,
+          },
+          {
+            path: '/events',
+            Component: Events,
           },
         ],
       },

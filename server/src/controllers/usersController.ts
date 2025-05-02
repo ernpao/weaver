@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import UserService from '../services/userService'
 import { toAuthenticatedUser } from '../models/user';
+import { handleRequest } from './_baseController';
+import ProjectService from '../services/projectService';
+
 
 const express = require('express');
 const router = express.Router();
@@ -39,7 +42,6 @@ router.get('/', async (req: Request, res: Response) => {
         })
 
     }
-
 
 });
 
@@ -119,5 +121,15 @@ router.delete('/', async (req: Request, res: Response) => {
 
 });
 
+router.get('/projects', async (req: Request, res: Response) => {
+    return handleRequest(req, res, async (r, _) => {
+
+        const uuid = req.uuid!;
+        const service = new ProjectService(uuid)
+        const projects = await service.getAll({ deletedAt: null });
+        return { success: true, data: projects }
+
+    })
+})
 
 module.exports = router;

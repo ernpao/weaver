@@ -1,7 +1,7 @@
-import PlaceModel, { IPlace } from '../models/place';
+import PlaceModel, { Place } from '../models/place';
 import { BaseProjectResourceService } from './_baseService';
 
-export default class PlaceService extends BaseProjectResourceService<IPlace> {
+export default class PlaceService extends BaseProjectResourceService<Place> {
 
     constructor(ownerUuid: string) {
         super(ownerUuid, PlaceModel)

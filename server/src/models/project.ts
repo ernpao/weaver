@@ -1,14 +1,14 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { IBaseDocument, BaseSchema } from './_baseDocument'
+import { IResourceDocument, BaseResourceSchema } from './_baseDocument'
 
-export interface IProject extends IBaseDocument {
+export interface Project extends IResourceDocument {
 }
 
 const ProjectSchema: Schema = new Schema({
-    ...BaseSchema,
+    ...BaseResourceSchema,
 });
 
-const ProjectModel = mongoose.model<IProject>('Project', ProjectSchema);
+const ProjectModel = mongoose.model<Project>('Project', ProjectSchema);
 
 export default ProjectModel;

@@ -1,8 +1,7 @@
 import { Document, Schema } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-export interface IBaseDocument extends Document {
-
+export interface IResource {
     uuid: string;
     ownerUuid: string;
     name: string;
@@ -11,10 +10,17 @@ export interface IBaseDocument extends Document {
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date | null;
-
 }
 
-export const BaseSchema = {
+export interface IProjectResource {
+    projectUuid: string;
+}
+
+export interface IResourceDocument extends Document, IResource { }
+
+export interface IProjectResourceDocument extends IResourceDocument, IProjectResource { }
+
+export const BaseResourceSchema = {
 
     uuid: {
         type: String,
@@ -56,13 +62,8 @@ export const BaseSchema = {
 
 }
 
-
-export interface IBaseProjectResource extends IBaseDocument {
-    projectUuid: string;
-}
-
 export const BaseProjectResourceSchema = {
-    ...BaseSchema,
+    ...BaseResourceSchema,
 
     projectUuid: {
         type: String,

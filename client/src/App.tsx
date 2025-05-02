@@ -1,49 +1,36 @@
 // App.tsx
 import React from 'react';
+import { Session } from '@toolpad/core/AppProvider';
+import { DialogsProvider } from '@toolpad/core';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import { Outlet, useNavigate } from 'react-router';
-import { useAuth, AuthProvider } from './hooks/useAuth';  // Correct import for the custom hook
-import { createTheme } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ArticleIcon from '@mui/icons-material/Article';
-import { NavigationSubheaderItem } from '@toolpad/core';
+import { useAuth } from './hooks/useAuth';  // Correct import for the custom hook
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { CssVarsProvider as JoyCssVarsProvider } from "@mui/joy/styles";
+import {
+  Experimental_CssVarsProvider as MaterialCssVarsProvider,
+  THEME_ID as MATERIAL_THEME_ID,
+} from "@mui/material/styles";
+import useProjectsStore from './hooks/store/useProjectsStore';
 
-
-const navHeader: NavigationSubheaderItem = {
-  kind: "header",
-  title: 'Main items',
-}
-
-const NAVIGATION = [
-  navHeader,
-  {
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
-  },
-  {
-    segment: 'demo-page-1',
-    title: 'Demo Page 1',
-    icon: <ArticleIcon />,
-  },
-  {
-    segment: 'demo-page-2',
-    title: 'Demo Page 2',
-    icon: <ArticleIcon />,
-  },
-];
 
 const BRANDING = {
   title: 'Weaver',
+  // logo: <></>,
 };
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    // mode: 'dark',
   },
 });
 
+
+
 export default function App() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { activeProject } = useProjectsStore()
+
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const signIn = React.useCallback(() => {
@@ -55,24 +42,48 @@ export default function App() {
     navigate('/sign-in');
   }, [logout, navigate]);
 
+  const session: Session | null = user
+    ? {
+      user: {
+        id: user.uuid,
+        name: user.username || user.email, // Fallback to email if no username
+        email: user.email,
+      },
+    }
+    : null
+
   return (
+
     <ReactRouterAppProvider
-      navigation={NAVIGATION}
+      navigation={activeProject ? [
+
+        {
+          segment: "characters",
+          title: "Characters",
+        },
+        {
+          segment: "places",
+          title: "Places"
+        },
+        {
+          segment: "events",
+          title: "Events"
+        }
+      ] : []}
       branding={BRANDING}
-      session={
-        user
-          ? {
-            user: {
-              name: user.username || user.email, // Fallback to email if no username
-              email: user.email,
-            },
-          }
-          : null
-      }
+      session={session}
       authentication={{ signIn, signOut }}
-      theme={theme}
     >
-      <Outlet />
+      <ThemeProvider theme={{ [MATERIAL_THEME_ID]: theme }}>
+        <MaterialCssVarsProvider>
+          <JoyCssVarsProvider>
+            <CssBaseline enableColorScheme />
+            <DialogsProvider>
+              <Outlet />
+            </DialogsProvider>
+          </JoyCssVarsProvider>
+        </MaterialCssVarsProvider>
+      </ThemeProvider>
     </ReactRouterAppProvider>
   );
 }

@@ -1,13 +1,13 @@
-import ProjectModel, { IProject } from '../models/project';
+import ProjectModel, { Project } from '../models/project';
 import { BaseService } from './_baseService';
 
-export default class ProjectService extends BaseService<IProject> {
+export default class ProjectService extends BaseService<Project> {
 
     constructor(ownerUuid: string) {
         super(ownerUuid, ProjectModel)
     }
 
-    async create(name: string): Promise<IProject> {
+    async create(name: string): Promise<Project> {
         return await this._create({ name })
     }
 

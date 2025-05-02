@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import { BaseProjectResourceSchema, IBaseProjectResource } from './_baseDocument';
+import { BaseProjectResourceSchema, IProjectResourceDocument, IProjectResource } from './_baseDocument';
 
-export interface ICharacter extends IBaseProjectResource {
+export interface Character extends IProjectResourceDocument {
     role?: string;
 }
 
@@ -16,6 +16,6 @@ const CharacterSchema: Schema = new Schema({
     }
 });
 
-const CharacterModel = mongoose.model<ICharacter>('Character', CharacterSchema);
+const CharacterModel = mongoose.model<Character>('Character', CharacterSchema);
 
 export default CharacterModel;

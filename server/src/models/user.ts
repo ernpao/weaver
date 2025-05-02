@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthenticatedUser } from '../types/authenticatedUser';
 
-export interface IUser extends Document {
+export interface User extends Document {
     uuid: string;
     name: string;
     email: string;
@@ -12,7 +12,7 @@ export interface IUser extends Document {
     deletedAt: Date | null;
 }
 
-export function toAuthenticatedUser(user: IUser): AuthenticatedUser {
+export function toAuthenticatedUser(user: User): AuthenticatedUser {
     return {
         uuid: user.uuid,
         email: user.email,
@@ -60,6 +60,6 @@ const UserSchema: Schema = new Schema({
     // }, { timestamps: true }); // Alternative using timestamps option
 });
 
-const UserModel = mongoose.model<IUser>('User', UserSchema);
+const UserModel = mongoose.model<User>('User', UserSchema);
 
 export default UserModel

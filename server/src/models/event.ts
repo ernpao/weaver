@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import { BaseProjectResourceSchema, IBaseProjectResource } from './_baseDocument';
+import { BaseProjectResourceSchema, IProjectResourceDocument } from './_baseDocument';
 
-export interface IEvent extends IBaseProjectResource {
+export interface Event extends IProjectResourceDocument {
     timelinePosition?: number; // percentage (0-100)
 }
 
@@ -17,6 +17,6 @@ const EventSchema: Schema = new Schema({
     
 });
 
-const EventModel = mongoose.model<IEvent>('Event', EventSchema);
+const EventModel = mongoose.model<Event>('Event', EventSchema);
 
 export default EventModel;

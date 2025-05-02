@@ -1,9 +1,9 @@
-import { ICharacter } from "../models/character";
+import { Character } from "../models/character";
 import CharacterService from "../services/characterService";
 import { BaseController, ControllerResult, createRouterFromController } from "./_baseController";
 import { Request, Response } from 'express';
 
-async function _getCharacter(req: Request): Promise<ICharacter | null> {
+async function _getCharacter(req: Request): Promise<Character | null> {
 
     if (!(req.uuid) || !(req.user?.uuid)) return null;
 

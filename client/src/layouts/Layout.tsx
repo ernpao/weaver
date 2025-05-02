@@ -1,9 +1,15 @@
+import { useState } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import { Box } from '@mui/material';
-import { useAuth } from '../hooks/useAuth'; // Assuming useAuth is in hooks/
+import { useAuth } from '../hooks/useAuth';
+import { Box, Stack } from '@mui/joy';
+import Paper from '@mui/material/Paper';
+import ProjectSelector from '../components/ProjectSelector';
+import { SignOutButton } from '@toolpad/core';
 
 export default function Layout() {
+
+
     const { isAuthenticated, loading } = useAuth();
     const location = useLocation();
 
@@ -17,10 +23,45 @@ export default function Layout() {
     }
 
     return (
-        <DashboardLayout>
-            <Box sx={{ padding: 1 }}>
+        <DashboardLayout
+            slots={{
+                toolbarActions: CustomToolbarActions,
+                toolbarAccount: () => (<></>),
+                sidebarFooter: (props) => (
+                    props.mini ?
+                        (<></>) :
+                        (<Stack sx={{
+                            display: props.mini ? "none" : "flex",
+                            flexGrow: "1",
+                            justifyContent: "flex-end",
+                        }}>
+
+                            <SignOutButton variant='contained' sx={{ m: 2 }} />
+                        </Stack>)
+                )
+            }}
+        >
+            <Box padding={2} height={"100%"}>
                 <Outlet />
             </Box>
         </DashboardLayout>
     );
 }
+
+function CustomToolbarActions() {
+    return (
+        <Stack
+            className="custom-toolbar-actions"
+            direction={'row'}
+            sx={{
+                width: 'calc(100vw - 320px)',
+                mx: "auto",
+                flexGrow: 1,
+                justifyContent: 'space-between',
+            }}
+        >
+            <ProjectSelector />
+        </Stack>
+    )
+}
+

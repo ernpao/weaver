@@ -1,9 +1,15 @@
-import { IProject } from "../models/project";
+import { IProjectResourceDocument } from "../models/_baseDocument";
+import { Project } from "../models/project";
+import { BaseProjectResourceService } from "../services/_baseService";
+import CharacterService from "../services/characterService";
+import EventService from "../services/eventService";
+import PlaceService from "../services/placeService";
 import ProjectService from "../services/projectService";
-import { BaseController, ControllerResult, createRouterFromController } from "./_baseController";
+import { BaseController, ControllerResult, createRouterFromController, handleRequest } from "./_baseController";
 import { Request, Response } from 'express';
+const requirePathParamUuid = require('../middleware/requirePathParamUuid')
 
-async function _getProject(req: Request): Promise<IProject | null> {
+async function _getProject(req: Request): Promise<Project | null> {
 
     if (!(req.uuid) || !(req.user?.uuid)) return null;
 
@@ -21,7 +27,7 @@ class ProjectsController extends BaseController {
 
         const project = await _getProject(req)
         if (project) {
-            // result.data = project
+            result.data = project
         } else {
             result.success = false;
             result.error = "Project not found."
@@ -50,7 +56,7 @@ class ProjectsController extends BaseController {
         const service = new ProjectService(req.user!.uuid)
         const project = await service.create(req.body.name)
 
-        let result: ControllerResult = { success: true };
+        let result: ControllerResult = { success: true, data: project };
 
         return result;
     }
@@ -73,4 +79,20 @@ class ProjectsController extends BaseController {
 
 }
 
-module.exports = createRouterFromController(new ProjectsController())
+const ProjectsRouter = createRouterFromController(new ProjectsController())
+
+async function getProjectResources<T extends IProjectResourceDocument>(service: BaseProjectResourceService<T>, req: Request, res: Response) {
+    return handleRequest(req, res, async (r, _) => {
+        const projectUuid = req.uuid!;
+        console.log(projectUuid)
+        const resources = await service.getAll({ deletedAt: null, projectUuid });
+        console.log(resources)
+        return { success: true, data: resources }
+    })
+}
+
+ProjectsRouter.get('/:uuid/characters', requirePathParamUuid, (req: Request, res: Response) => getProjectResources(new CharacterService(req.user!.uuid!), req, res))
+ProjectsRouter.get('/:uuid/events', requirePathParamUuid, (req: Request, res: Response) => getProjectResources(new EventService(req.user!.uuid!), req, res))
+ProjectsRouter.get('/:uuid/places', requirePathParamUuid, (req: Request, res: Response) => getProjectResources(new PlaceService(req.user!.uuid!), req, res))
+
+module.exports = ProjectsRouter

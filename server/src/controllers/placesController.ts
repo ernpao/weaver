@@ -1,9 +1,9 @@
-import { IPlace } from "../models/place";
+import { Place } from "../models/place";
 import PlaceService from "../services/placeService";
 import { BaseController, ControllerResult, createRouterFromController } from "./_baseController";
 import { Request, Response } from 'express';
 
-async function _getPlace(req: Request): Promise<IPlace | null> {
+async function _getPlace(req: Request): Promise<Place | null> {
 
     if (!(req.uuid) || !(req.user?.uuid)) return null;
 

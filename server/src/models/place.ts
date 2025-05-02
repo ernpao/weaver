@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import { BaseProjectResourceSchema, IBaseProjectResource } from './_baseDocument';
+import { BaseProjectResourceSchema, IProjectResourceDocument } from './_baseDocument';
 
-export interface IPlace extends IBaseProjectResource {
+export interface Place extends IProjectResourceDocument {
     location?: string; // optional field
 }
 
@@ -15,6 +15,6 @@ const PlaceSchema: Schema = new Schema({
     }
 });
 
-const PlaceModel = mongoose.model<IPlace>('Place', PlaceSchema);
+const PlaceModel = mongoose.model<Place>('Place', PlaceSchema);
 
 export default PlaceModel;

@@ -1,6 +1,9 @@
 // hooks/useAuth.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+
+const API_SERVER = process.env.REACT_APP_API_SERVER_URL;
+
 export interface AuthenticatedUser {
     uuid: string;
     email: string;
@@ -43,7 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const fetchUser = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`${process.env.REACT_APP_API_SERVER_URL}/auth/profile`, {
+            const res = await fetch(`${API_SERVER}/auth/profile`, {
                 credentials: 'include',
             });
 
@@ -72,7 +75,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => { fetchUser(); }, []);
 
     const login = async (email: string, password: string, remember: boolean = false) => {
-        const res = await fetch(`${process.env.REACT_APP_API_SERVER_URL}/auth/login`, {
+        const res = await fetch(`${API_SERVER}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -90,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const logout = async () => {
-        await fetch(`${process.env.REACT_APP_API_SERVER_URL}/auth/logout`, {
+        await fetch(`${API_SERVER}/auth/logout`, {
             method: 'POST',
             credentials: 'include',
         });

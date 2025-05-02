@@ -1,9 +1,9 @@
-import { IEvent } from "../models/event";
+import { Event } from "../models/event";
 import EventService from "../services/eventService";
 import { BaseController, ControllerResult, createRouterFromController } from "./_baseController";
 import { Request, Response } from 'express';
 
-async function _getEvent(req: Request): Promise<IEvent | null> {
+async function _getEvent(req: Request): Promise<Event | null> {
 
     if (!(req.uuid) || !(req.user?.uuid)) return null;
 

@@ -1,8 +1,8 @@
 import { Model } from "mongoose";
-import { IBaseDocument, IBaseProjectResource } from "../models/_baseDocument";
+import { IResourceDocument, IProjectResourceDocument } from "../models/_baseDocument";
 import ProjectService from "./projectService";
 
-export abstract class BaseService<T extends IBaseDocument> {
+export abstract class BaseService<T extends IResourceDocument> {
 
     #model: Model<T>;
     ownerUuid: string;
@@ -42,7 +42,7 @@ export abstract class BaseService<T extends IBaseDocument> {
      * Fetch all of the owner's documents of type T.
      *
     */
-    async getAll(params: any): Promise<T[]> {
+    async getAll(params?: any): Promise<T[]> {
         let filter = { ...this.#queryParams, deletedAt: null }
 
         if (params) {
@@ -205,7 +205,7 @@ export abstract class BaseService<T extends IBaseDocument> {
 
 }
 
-export abstract class BaseProjectResourceService<T extends IBaseProjectResource> extends BaseService<T>{
+export abstract class BaseProjectResourceService<T extends IProjectResourceDocument> extends BaseService<T>{
 
     async create(projectUuid: string, name: string): Promise<T | null> {
 
