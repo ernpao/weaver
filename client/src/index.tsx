@@ -10,7 +10,7 @@ import Characters from './pages/Characters';
 import Places from './pages/Places';
 import Dashboard from './pages/Dashboard';
 import { AuthProvider } from './hooks/useAuth';
-import Events from './pages/Events';
+import Timeline from './pages/Timeline';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -37,8 +37,8 @@ const router = createBrowserRouter([
             Component: Places,
           },
           {
-            path: '/events',
-            Component: Events,
+            path: '/timeline',
+            Component: Timeline,
           },
         ],
       },

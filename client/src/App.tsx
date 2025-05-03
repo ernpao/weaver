@@ -88,8 +88,8 @@ export default function App() {
             icon: <LocationPinIcon color='primary' />
           },
           {
-            segment: "events",
-            title: "Events",
+            segment: "timeline",
+            title: "Timeline",
             icon: <ScheduleIcon color='primary' />
           }
         ] : []}

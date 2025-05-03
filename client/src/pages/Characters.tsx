@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDialogs } from '@toolpad/core';
 import DialogUpdateCharacter from '../components/DialogUpdateCharacter';
 import DialogDeleteConfirmation from '../components/DialogDeleteConfirmation';
+import Tag, { TagContainer } from '../components/Tag';
 
 function truncateString(str: string, num: number) {
     if (str.length > num) {
@@ -82,20 +83,8 @@ export default function Characters() {
                                     {truncateString(item.description, 64)}
                                 </Typography>}
 
-                                {(item.tags.length) > 0 &&
-                                    <Stack marginTop={1} direction="row" spacing={1} flexWrap="wrap">
-                                        {(item.tags || []).map((tag, index) => (
-                                            <Chip
-                                                color='primary'
-                                                key={index}
-                                                variant="solid"
-                                                sx={{ px: 2, py: 1 }}
-                                            >
-                                                {tag}
-                                            </Chip>
-                                        ))}
-                                    </Stack>
-                                }
+                                {(item.tags.length) > 0 && <TagContainer tags={item.tags} />}
+                                
                             </CardContent>
                             <CardOverflow sx={{ bgcolor: 'background.level1' }}>
                                 <CardActions buttonFlex="1">

@@ -19,6 +19,7 @@ import {
 import { Close } from '@mui/icons-material';
 import { useState } from 'react';
 import { Character } from '../hooks/services/useProjectResource';
+import Tag, { TagContainer } from './Tag';
 
 export default function DialogUpdateCharacter({
     payload,
@@ -154,36 +155,8 @@ export default function DialogUpdateCharacter({
                     </Stack>
                     {tagError && <FormHelperText color="danger">{tagError}</FormHelperText>}
 
-                    <Stack direction="row" spacing={1} flexWrap="wrap">
-                        {(updatedInfo.tags || []).map((tag, index) => (
-                            <Chip
-                                key={index}
-                                variant="outlined"
-                                onClick={() => handleTagDelete(tag)}
-                                endDecorator={
-                                    <IconButton
-                                        size="sm"
-                                        sx={{
-                                            ml: 0.5,
-                                            opacity: 0,
-                                            transition: 'opacity 0.2s',
-                                            '&:hover': { opacity: 1 },
-                                        }}
-                                    >
-                                        <Close fontSize="small" />
-                                    </IconButton>
-                                }
-                                sx={{
-                                    '&:hover .MuiIconButton-root': {
-                                        opacity: 1,
-                                    },
-                                    paddingLeft: 5,
-                                }}
-                            >
-                                {tag}
-                            </Chip>
-                        ))}
-                    </Stack>
+                    <TagContainer tags={updatedInfo.tags ?? []} onRemove={handleTagDelete} />
+
                 </Stack>
             </DialogContent>
             <DialogActions>
