@@ -42,7 +42,7 @@ class ProjectsController extends BaseController {
         const project = await _getProject(req)
         if (project) {
             const service = new ProjectService(req.user.uuid)
-            await service.update(project.uuid, req.body.name, req.body.description)
+            result.data = await service.update(project.uuid, req.body.name, req.body.description)
         } else {
             result.success = false;
             result.error = "Project not found."
@@ -84,9 +84,9 @@ const ProjectsRouter = createRouterFromController(new ProjectsController())
 async function getProjectResources<T extends IProjectResourceDocument>(service: BaseProjectResourceService<T>, req: Request, res: Response) {
     return handleRequest(req, res, async (r, _) => {
         const projectUuid = req.uuid!;
-        console.log(projectUuid)
+        // console.log(projectUuid)
         const resources = await service.getAll({ deletedAt: null, projectUuid });
-        console.log(resources)
+        // console.log(resources)
         return { success: true, data: resources }
     })
 }

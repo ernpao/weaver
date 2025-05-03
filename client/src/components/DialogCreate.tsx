@@ -8,11 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { Input, FormHelperText } from '@mui/joy';
 import { useState } from 'react';
 
-interface CreateDialogProps extends DialogProps<string, string | null> {
-    resourceType: string;
-}
-
-export default function CreateDialog({ payload, open, onClose }: DialogProps<string, string | null>) {
+export default function DialogCreate({ payload, open, onClose }: DialogProps<string, string | null>) {
     const [name, setName] = useState('');
     const [error, setError] = useState<string | null>(null);
 
@@ -48,6 +44,12 @@ export default function CreateDialog({ payload, open, onClose }: DialogProps<str
                     onChange={handleChange}
                     autoFocus
                     error={!!error}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && name.trim()) {
+                            e.preventDefault();
+                            handleCreate()
+                        }
+                    }}
                 />
                 {error && <FormHelperText color="danger">{error}</FormHelperText>}
             </DialogContent>

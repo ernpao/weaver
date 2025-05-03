@@ -13,8 +13,8 @@ export default class CharacterService extends BaseProjectResourceService<Charact
         description?: string,
         role?: string,
         tags?: string[]
-    ) {
-        await this._update(uuid, { name, description, role, tags })
+    ): Promise<Character | null> {
+        return this._update(uuid, { name, description, role, tags })
     }
 
 }

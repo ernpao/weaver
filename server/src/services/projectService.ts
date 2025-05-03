@@ -16,8 +16,8 @@ export default class ProjectService extends BaseService<Project> {
         name?: string,
         description?: string,
         tags?: string[]
-    ) {
-        await this._update(uuid, { name, description, tags })
+    ): Promise<Project | null> {
+        return this._update(uuid, { name, description, tags })
     }
 
 }

@@ -38,7 +38,7 @@ class PlacesController extends BaseController {
         if (place) {
 
             const service = new PlaceService(req.user.uuid)
-            await service.update(
+            result.data = await service.update(
                 place.uuid,
                 req.body.name,
                 req.body.description,

@@ -12,12 +12,10 @@ export interface ControllerResult {
 }
 
 export abstract class BaseController {
-
     abstract get(req: Request, res: Response): Promise<ControllerResult>;
     abstract post(req: Request, res: Response): Promise<ControllerResult>;
     abstract put(req: Request, res: Response): Promise<ControllerResult>;
     abstract delete(req: Request, res: Response): Promise<ControllerResult>;
-
 }
 
 export async function handleRequest(req: Request, res: Response, callback: (rq: Request, rs: Response) => Promise<ControllerResult>) {

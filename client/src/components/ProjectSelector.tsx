@@ -5,7 +5,7 @@ import Option from '@mui/joy/Option';
 import { Button, Skeleton, Stack } from "@mui/joy";
 import useProjectService from "../hooks/services/useProjectsService";
 import { useDialogs } from "@toolpad/core";
-import CreateDialog from "./CreateDialog";
+import DialogCreate from "./DialogCreate";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function ProjectSelector() {
@@ -36,7 +36,7 @@ export default function ProjectSelector() {
 
     async function handleChange(val: string) {
         if (val === CREATE_NEW_PROJECT) {
-            const name = await dialogs.open(CreateDialog, "Project")
+            const name = await dialogs.open(DialogCreate, "Project")
             if (name) {
                 try {
                     const newProject = await projectsService.create(name)

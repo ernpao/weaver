@@ -1,7 +1,7 @@
 import { useDialogs } from "@toolpad/core/useDialogs";
 import useProjectsStore from "../store/useProjectsStore";
 import { IProjectResource, useService } from "./_useService";
-import CreateDialog from "../../components/CreateDialog";
+import DialogCreate from "../../components/DialogCreate";
 import { useEffect, useState } from "react";
 
 export interface Character extends IProjectResource {
@@ -26,9 +26,9 @@ export default function useProjectResource<T extends IProjectResource>(resourceP
         handleError,
         getAll,
         // getOne,
-        create: put,
-        update,
-        remove,
+        create: _create,
+        update: _update,
+        remove: _remove,
     } = useService<T>(resourcePath)
 
 
@@ -49,17 +49,16 @@ export default function useProjectResource<T extends IProjectResource>(resourceP
 
     useEffect(() => { fetchItems(); }, [activeProject])
 
-    // async function getAllInProject(): Promise<T[] | null> { return activeProject ? getAll(activeProject.uuid) : null };
 
-    async function createNew(): Promise<T | null> {
+    async function create(): Promise<T | null> {
 
         try {
             if (!activeProject) return null;
 
-            const name = await dialogs.open(CreateDialog, resourceName)
+            const name = await dialogs.open(DialogCreate, resourceName)
             if (!name) return null;
 
-            const newItem = await put(name, { projectUuid: activeProject.uuid })
+            const newItem = await _create(name, { projectUuid: activeProject.uuid })
 
             if (newItem) { await fetchItems(); }
 
@@ -73,7 +72,43 @@ export default function useProjectResource<T extends IProjectResource>(resourceP
 
     }
 
-    return { items, loading, error, createNew, update, remove }
+    async function update(resourceUuid: string, asyncParams: Promise<Partial<T> | null>): Promise<T | null> {
+
+        try {
+
+            const updatedFields = await asyncParams;
+            if (!updatedFields) return null;
+
+            const updatedResource = await _update(resourceUuid, updatedFields);
+            if (updatedResource) { await fetchItems(); }
+
+            return updatedResource;
+
+        } catch (error) {
+            handleError(error);
+        }
+
+        return null;
+    }
+
+    async function remove(resourceUuid: string, asyncConfirmation: Promise<boolean>): Promise<boolean> {
+
+        const confirmation = await asyncConfirmation;
+
+        if (confirmation) {
+            try {
+                const success = await _remove(resourceUuid)
+                if (success) { await fetchItems(); }
+                return success;
+            } catch (error) {
+                handleError(error)
+            }
+        }
+        return false;
+    }
+
+
+    return { items, loading, error, create, remove, update };
 }
 
 export function useProjectCharacters() {

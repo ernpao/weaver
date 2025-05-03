@@ -36,9 +36,9 @@ class EventsController extends BaseController {
         const event = await _getEvent(req)
 
         if (event) {
-            
+
             const service = new EventService(req.user.uuid)
-            await service.update(
+            result.data = await service.update(
                 event.uuid,
                 req.body.name,
                 req.body.description,

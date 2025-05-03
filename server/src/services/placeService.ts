@@ -13,8 +13,8 @@ export default class PlaceService extends BaseProjectResourceService<Place> {
         description?: string,
         location?: string,
         tags?: string[]
-    ) {
-        await this._update(uuid, { name, description, location, tags })
+    ): Promise<Place | null> {
+        return this._update(uuid, { name, description, location, tags })
     }
 
 }

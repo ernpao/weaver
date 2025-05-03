@@ -13,8 +13,8 @@ export default class EventService extends BaseProjectResourceService<Event> {
         description?: string,
         timelinePosition?: number,
         tags?: string[]
-    ) {
-        await this._update(uuid, { name, description, timelinePosition, tags })
+    ): Promise<Event | null> {
+        return this._update(uuid, { name, description, timelinePosition, tags })
     }
 
 }

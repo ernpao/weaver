@@ -36,9 +36,9 @@ class CharactersController extends BaseController {
         const character = await _getCharacter(req)
 
         if (character) {
-            
+
             const service = new CharacterService(req.user.uuid)
-            await service.update(
+            result.data = await service.update(
                 character.uuid,
                 req.body.name,
                 req.body.description,
