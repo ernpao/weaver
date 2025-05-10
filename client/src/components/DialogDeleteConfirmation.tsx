@@ -4,8 +4,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/joy/Button';
-import Typography from '@mui/joy/Typography';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 export default function DialogDeleteConfirmation({
     payload,
@@ -24,11 +24,11 @@ export default function DialogDeleteConfirmation({
                 <Typography>{payload}</Typography>
             </DialogContent>
             <DialogActions>
-                <Button variant="plain" color="neutral" onClick={() => onClose(false)}>
-                    Cancel
-                </Button>
-                <Button color="danger" onClick={() => onClose(true)}>
+                <Button variant='contained' color='error' onClick={() => onClose(true)}>
                     Delete
+                </Button>
+                <Button variant='contained' color='inherit' onClick={() => onClose(false)}>
+                    Cancel
                 </Button>
             </DialogActions>
         </Dialog>

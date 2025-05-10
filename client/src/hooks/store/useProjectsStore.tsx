@@ -14,7 +14,10 @@ const useProjectsStore = create<ProjectsStore>()(
         (set) => ({
             activeProject: null,
             userProjects: [],
-            setActiveProject: (project) => set({ activeProject: project }),
+            setActiveProject: function (project) {
+                console.log("Setting active project: ", project);
+                set({ activeProject: project })
+            },
             setUserProjects: (projects) => set({ userProjects: projects }),
         }),
         {

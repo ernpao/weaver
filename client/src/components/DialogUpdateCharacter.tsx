@@ -1,25 +1,20 @@
 import * as React from 'react';
-import { DialogProps } from '@toolpad/core/useDialogs';
-import Button from '@mui/joy/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import {
-    Input,
-    FormHelperText,
-    Textarea,
-    Stack,
-    Chip,
-    IconButton,
-    Select,
-    Option,
-    FormLabel,
-} from '@mui/joy';
-import { Close } from '@mui/icons-material';
 import { useState } from 'react';
+import { DialogProps } from '@toolpad/core/useDialogs';
+import {
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    TextField,
+    Stack,
+    MenuItem,
+    FormLabel,
+    FormHelperText,
+} from '@mui/material';
 import { Character } from '../hooks/services/useProjectResource';
-import Tag, { TagContainer } from './Tag';
+import { TagContainer } from './Tag';
 
 export default function DialogUpdateCharacter({
     payload,
@@ -52,10 +47,10 @@ export default function DialogUpdateCharacter({
         }
     };
 
-    const handleRoleChange = (_: any, newValue: string | null) => {
+    const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUpdatedInfo((prev) => ({
             ...prev,
-            role: newValue || '',
+            role: e.target.value,
         }));
     };
 
@@ -88,53 +83,49 @@ export default function DialogUpdateCharacter({
         <Dialog fullWidth sx={{ p: 2 }} open={open} onClose={() => onClose(null)}>
             <DialogTitle>Editing Character: {payload.name}</DialogTitle>
             <DialogContent>
+                <FormLabel>Character Info</FormLabel>
                 <Stack spacing={2} mt={1}>
-
-                    <FormLabel>Name</FormLabel>
-                    <Input
+                    <TextField
+                        label="Name"
                         name="name"
                         value={updatedInfo.name || ''}
                         onChange={handleChange}
                         placeholder="Character name"
                         autoFocus
                         error={!!error}
+                        helperText={error}
+                        fullWidth
                     />
-                    {error && <FormHelperText color="danger">{error}</FormHelperText>}
 
-                    <FormLabel>Description</FormLabel>
-                    <Textarea
+                    <TextField
+                        label="Description"
                         name="description"
                         value={updatedInfo.description || ''}
                         onChange={handleChange}
                         placeholder="Description"
+                        multiline
                         minRows={3}
+                        fullWidth
                     />
 
-
-                    <FormLabel>Role</FormLabel>
-                    <Select
+                    <TextField
+                        select
+                        label="Role"
                         name="role"
                         value={updatedInfo.role || ''}
                         onChange={handleRoleChange}
-                        placeholder="Select role"
-                        slotProps={{
-                            listbox: {
-                                sx: {
-                                    zIndex: 2000, // higher than Dialog
-                                },
-                            },
-                        }}
+                        fullWidth
                     >
-                        <Option value="Protagonist">Protagonist</Option>
-                        <Option value="Antagonist">Antagonist</Option>
-                        <Option value="Supporting">Supporting</Option>
-                        <Option value="Other">Other</Option>
-                        <Option value="">None</Option>
-                    </Select>
+                        <MenuItem value="Protagonist">Protagonist</MenuItem>
+                        <MenuItem value="Antagonist">Antagonist</MenuItem>
+                        <MenuItem value="Supporting">Supporting</MenuItem>
+                        <MenuItem value="Other">Other</MenuItem>
+                        <MenuItem value="">None</MenuItem>
+                    </TextField>
 
                     <FormLabel>Tags</FormLabel>
                     <Stack direction="row" spacing={1} alignItems="center">
-                        <Input
+                        <TextField
                             value={tagInput}
                             onChange={(e) => {
                                 setTagInput(e.target.value);
@@ -148,23 +139,26 @@ export default function DialogUpdateCharacter({
                                     handleTagAdd();
                                 }
                             }}
+                            // fullWidth
+                            sx={{ flexGrow: 1 }}
                         />
-                        <Button size="sm" onClick={handleTagAdd}>
+                        <Button variant="contained" onClick={handleTagAdd}>
                             Add Tag
                         </Button>
                     </Stack>
-                    {tagError && <FormHelperText color="danger">{tagError}</FormHelperText>}
+                    {tagError && (
+                        <FormHelperText error>{tagError}</FormHelperText>
+                    )}
 
                     <TagContainer tags={updatedInfo.tags ?? []} onRemove={handleTagDelete} />
-
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button variant="plain" color="neutral" onClick={() => onClose(null)}>
-                    Cancel
-                </Button>
-                <Button onClick={handleUpdate} disabled={!updatedInfo.name?.trim()}>
+                <Button variant="contained" onClick={handleUpdate} disabled={!updatedInfo.name?.trim()}>
                     Save
+                </Button>
+                <Button variant="contained" onClick={() => onClose(null)} color="inherit">
+                    Cancel
                 </Button>
             </DialogActions>
         </Dialog>

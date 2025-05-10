@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useAuth } from '../hooks/useAuth';
-import { Box, Stack } from '@mui/joy';
+import { Box, Stack } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import ProjectSelector from '../components/ProjectSelector';
 import { SignOutButton } from '@toolpad/core';
@@ -36,7 +36,7 @@ export default function Layout() {
                             justifyContent: "flex-end",
                         }}>
 
-                            <SignOutButton variant='contained' sx={{ m: 2 }} />
+                            <SignOutButton variant='outlined' sx={{ m: 2, p: 1.5 }} />
                         </Stack>)
                 )
             }}

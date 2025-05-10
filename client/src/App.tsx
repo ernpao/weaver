@@ -6,8 +6,7 @@ import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import { Outlet, useNavigate } from 'react-router';
 import { useAuth } from './hooks/useAuth';
 
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { CssVarsProvider as JoyCssVarsProvider } from "@mui/joy/styles";
+import { CssBaseline, ThemeOptions, ThemeProvider, createTheme } from '@mui/material';
 import {
   Experimental_CssVarsProvider as MaterialCssVarsProvider,
   THEME_ID as MATERIAL_THEME_ID,
@@ -22,19 +21,51 @@ import PublicIcon from '@mui/icons-material/Public';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import GestureIcon from '@mui/icons-material/Gesture';
 
+
 const BRANDING = {
   title: 'Weaver',
   // logo: <></>,
   logo: <GestureIcon color='primary' fontSize="large" />,
 };
 
+
+export const themeOptions: ThemeOptions = {
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#9353d3',
+      dark: '#6100ff',
+    },
+    secondary: {
+      main: '#637aff',
+    },
+    divider: 'rgba(255,255,255,0.15)',
+    background: {
+      paper: '#282135',
+      default: '#1b1526',
+    },
+    success: {
+      main: '#23d98d',
+    },
+    warning: {
+      main: '#ffca3a',
+    },
+    error: {
+      main: '#ff6b6b',
+    },
+  },
+  typography: {
+    fontFamily: 'Lato',
+  },
+};
+
+// const theme = createTheme(themeOptions);
+
 const theme = createTheme({
   palette: {
     // mode: 'dark',
   },
 });
-
-
 
 export default function App() {
   const { activeProject } = useProjectsStore()
@@ -99,12 +130,10 @@ export default function App() {
     >
       <ThemeProvider theme={{ [MATERIAL_THEME_ID]: theme }}>
         <MaterialCssVarsProvider>
-          <JoyCssVarsProvider>
-            <CssBaseline enableColorScheme />
-            <DialogsProvider>
-              <Outlet />
-            </DialogsProvider>
-          </JoyCssVarsProvider>
+          <CssBaseline enableColorScheme />
+          <DialogsProvider>
+            <Outlet />
+          </DialogsProvider>
         </MaterialCssVarsProvider>
       </ThemeProvider>
     </ReactRouterAppProvider>

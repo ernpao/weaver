@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { DialogProps } from '@toolpad/core/useDialogs';
-import Button from '@mui/joy/Button';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { Input, FormHelperText } from '@mui/joy';
+import { Input, FormHelperText } from '@mui/material';
 import { useState } from 'react';
 
 export default function DialogCreate({ payload, open, onClose }: DialogProps<string, string | null>) {
@@ -36,9 +36,12 @@ export default function DialogCreate({ payload, open, onClose }: DialogProps<str
             open={open}
             onClose={() => onClose(null)}
         >
-            <DialogTitle>Create A New {payload}</DialogTitle>
+            <DialogTitle>Create a new {payload.toLowerCase()}:</DialogTitle>
             <DialogContent>
                 <Input
+                    sx={{
+                        width: "100%"
+                    }}
                     placeholder={`Enter ${payload.toLowerCase()} name`}
                     value={name}
                     onChange={handleChange}
@@ -54,11 +57,11 @@ export default function DialogCreate({ payload, open, onClose }: DialogProps<str
                 {error && <FormHelperText color="danger">{error}</FormHelperText>}
             </DialogContent>
             <DialogActions>
-                <Button variant="plain" color="neutral" onClick={() => onClose(null)}>
-                    Cancel
-                </Button>
-                <Button onClick={handleCreate} disabled={!name.trim()}>
+                <Button variant='contained' color="primary" onClick={handleCreate} disabled={!name.trim()}>
                     Create
+                </Button>
+                <Button variant='contained' color="inherit" onClick={() => onClose(null)}>
+                    Cancel
                 </Button>
             </DialogActions>
         </Dialog>
