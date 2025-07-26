@@ -49,7 +49,7 @@ export default function useProjectResource<T extends IProjectResource>(resourceP
 
     useEffect(() => { fetchItems(); }, [activeProject])
 
-
+    
     async function create(): Promise<T | null> {
 
         try {
@@ -106,7 +106,6 @@ export default function useProjectResource<T extends IProjectResource>(resourceP
         }
         return false;
     }
-
 
     return { items, loading, error, create, remove, update };
 }

@@ -6,7 +6,7 @@ import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import { Outlet, useNavigate } from 'react-router';
 import { useAuth } from './hooks/useAuth';
 
-import { CssBaseline, ThemeOptions, ThemeProvider, createTheme } from '@mui/material';
+import { Components, CssBaseline, Theme, ThemeOptions, ThemeProvider, createTheme } from '@mui/material';
 import {
   Experimental_CssVarsProvider as MaterialCssVarsProvider,
   THEME_ID as MATERIAL_THEME_ID,
@@ -21,6 +21,8 @@ import PublicIcon from '@mui/icons-material/Public';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import GestureIcon from '@mui/icons-material/Gesture';
 
+import { HeroUIProvider } from "@heroui/react";
+
 
 const BRANDING = {
   title: 'Weaver',
@@ -28,6 +30,32 @@ const BRANDING = {
   logo: <GestureIcon color='primary' fontSize="large" />,
 };
 
+
+const componentStyles: Components<Omit<Theme, 'components'>> = {
+  MuiCard: {
+    styleOverrides: {
+      root: {
+        borderRadius: "1rem"
+      }
+    }
+  },
+  MuiDialog: {
+    styleOverrides: {
+      root: {
+        "[role='dialog']": {
+          borderRadius: "1rem"
+        }
+      }
+    }
+  },
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        borderRadius: "0.625rem"
+      }
+    }
+  },
+}
 
 export const themeOptions: ThemeOptions = {
   palette: {
@@ -57,15 +85,17 @@ export const themeOptions: ThemeOptions = {
   typography: {
     fontFamily: 'Lato',
   },
+
+  components: componentStyles
 };
 
-// const theme = createTheme(themeOptions);
+const theme = createTheme(themeOptions);
 
-const theme = createTheme({
-  palette: {
-    // mode: 'dark',
-  },
-});
+// const theme = createTheme({
+//   palette: {
+//     // mode: 'dark',
+//   },
+// });
 
 export default function App() {
   const { activeProject } = useProjectsStore()
@@ -128,14 +158,16 @@ export default function App() {
       session={session}
       authentication={{ signIn, signOut }}
     >
-      <ThemeProvider theme={{ [MATERIAL_THEME_ID]: theme }}>
-        <MaterialCssVarsProvider>
-          <CssBaseline enableColorScheme />
-          <DialogsProvider>
-            <Outlet />
-          </DialogsProvider>
-        </MaterialCssVarsProvider>
-      </ThemeProvider>
+      <HeroUIProvider>
+        <ThemeProvider theme={{ [MATERIAL_THEME_ID]: theme }}>
+          <MaterialCssVarsProvider>
+            <CssBaseline enableColorScheme />
+            <DialogsProvider>
+              <Outlet />
+            </DialogsProvider>
+          </MaterialCssVarsProvider>
+        </ThemeProvider>
+      </HeroUIProvider >
     </ReactRouterAppProvider>
   );
 }

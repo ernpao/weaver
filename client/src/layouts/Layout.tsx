@@ -35,15 +35,14 @@ export default function Layout() {
                             flexGrow: "1",
                             justifyContent: "flex-end",
                         }}>
-
                             <SignOutButton variant='outlined' sx={{ m: 2, p: 1.5 }} />
                         </Stack>)
                 )
             }}
+
+            sx={{ padding: 2 }}
         >
-            <Box padding={2} height={"100%"}>
-                <Outlet />
-            </Box>
+            <Outlet />
         </DashboardLayout>
     );
 }

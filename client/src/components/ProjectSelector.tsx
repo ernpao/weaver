@@ -7,7 +7,6 @@ import {
     Select,
     MenuItem,
     FormControl,
-    InputLabel,
 } from "@mui/material";
 import useProjectService from "../hooks/services/useProjectsService";
 import { useDialogs } from "@toolpad/core";
@@ -23,7 +22,7 @@ export default function ProjectSelector() {
 
     const CREATE_NEW_PROJECT = "Create a new project..."
 
-    const refreshDropdown = async () => {
+    async function refreshDropdown() {
         console.log("Refreshing projects dropdown...")
         const projects = await projectsService.getAllUserProjects()
 
@@ -42,8 +41,6 @@ export default function ProjectSelector() {
 
         setActiveProject(dropdownSelectedProject)
     }
-
-    useEffect(() => { refreshDropdown() }, [])
 
     async function handleChange(event: any) {
         const val = event.target.value || CREATE_NEW_PROJECT;
@@ -69,18 +66,24 @@ export default function ProjectSelector() {
         }
     }
 
+    useEffect(() => { refreshDropdown() }, [])
+
     return projectsService.loading ? (
         <Skeleton variant="rectangular" height={40} width="80%" sx={{ mx: "auto" }} />
     ) : (
         <FormControl fullWidth sx={{ width: "80%", mx: "auto" }}>
-            {/* <InputLabel id="project-selector-label">Select Project</InputLabel> */}
             <Select
                 labelId="project-selector-label"
                 value={activeProject?.uuid || ""}
                 onChange={handleChange}
-                // label="Select Project"
-                inputProps={{ 'aria-label': 'Without label' }}
-
+                sx={
+                    {
+                        borderRadius: 3,
+                        ".MuiSelect-select": {
+                            py: 1,
+                        }
+                    }
+                }
             >
                 {userProjects.map((p, i) => (
                     <MenuItem key={i} value={p.uuid}>

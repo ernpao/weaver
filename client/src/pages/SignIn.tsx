@@ -47,6 +47,12 @@ export default function SignIn() {
     return (
         <Box>
             <SignInPage
+                sx={{
+                    '.MuiBox-root': {
+                        borderRadius: 5,
+                        // bgcolor: 'red'
+                    }
+                }}
                 signIn={signIn}
                 providers={[{ id: 'credentials', name: 'Credentials' }]}
                 slotProps={{ emailField: { autoFocus: false }, form: { noValidate: true } }}

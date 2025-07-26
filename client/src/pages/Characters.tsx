@@ -60,7 +60,12 @@ export default function Characters() {
                     }}
                 >
                     {items.map((item) => (
-                        <Card key={item.uuid} sx={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                        <Card key={item.uuid} sx={
+                            {
+                                position: 'relative', display: 'flex', flexDirection: 'column',
+                                // borderRadius: 5
+                            }
+                        }>
                             <IconButton
                                 onClick={(e) => handleMenuOpen(item.uuid, e)}
                                 sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}

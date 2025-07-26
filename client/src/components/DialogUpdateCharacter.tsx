@@ -91,7 +91,7 @@ export default function DialogUpdateCharacter({
                         value={updatedInfo.name || ''}
                         onChange={handleChange}
                         placeholder="Character name"
-                        autoFocus
+                        // autoFocus
                         error={!!error}
                         helperText={error}
                         fullWidth
